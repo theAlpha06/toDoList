@@ -1,12 +1,19 @@
 <%- include("header") -%>
 
 <nav class="navbar">
-  <a href="/">Home</a>
-  <%for(i = 0; i < list.length; i++){%>
-    <%if(list[i].name != 'Favicon.ico'){%>
-        <a href="/<%= list[i].name %>"> <%= list[i].name %></a>
+  <div class="items">
+    <a href="/">Home</a>
+    <%for(i = 0; i < list.length; i++){%>
+      <%if(list[i].name != 'Favicon.ico'){%>
+          <a href="/<%= list[i].name %>"> <%= list[i].name %></a>
+      <%}%>
     <%}%>
-  <%}%>
+  </div>
+  <form action="/newList" method="post">
+    <div class="search">
+        <input type="text" name="customList" placeholder="Add new list"/>
+      </div>
+  </form>
 </nav>
 
   <div class="box" id="heading">

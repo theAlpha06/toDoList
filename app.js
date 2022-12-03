@@ -120,13 +120,34 @@ app.post("/delete", (req, res)=>{
 
 })
 
-app.get("/work", function(req,res){
-  res.render("list", {listTitle: "Work List", newListItems: workItems});
+app.post('/newList', (req, res) => {
+  const newListName  = _.capitalize(req.body.customList);
+  List.findOne({name: newListName}, (err, foundList) => {
+    if(!err){
+      if(!foundList){
+        const list = new List({
+          name: newListName,
+          items: defaultItems
+        })
+        list.save();
+        res.redirect("/" + newListName);
+      }
+      else{
+        List.find({}, (err, foundCustomList) => {
+          res.render('list', {listTitle: foundList.name, newListItems: foundList.items, list:foundCustomList})
+        })
+      }
+    }
+  })
 });
 
-app.get("/about", function(req, res){
-  res.render("about");
-});
+// app.get("/work", function(req,res){
+//   res.render("list", {listTitle: "Work List", newListItems: workItems});
+// });
+
+// app.get("/about", function(req, res){
+//   res.render("about");
+// });
 
 app.listen(port, function() {
   console.log(`Server started on port ${port}`);
